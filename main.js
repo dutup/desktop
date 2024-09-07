@@ -1,26 +1,39 @@
 const { app, BrowserWindow } = require('electron/main')
 const path = require('node:path')
-
+app.commandLine.appendSwitch ("disable-http-cache");
 function createWindow () {
   const win = new BrowserWindow({
     width: 800,
-    height: 600,
+    height: 1200,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js')
-    }
-  })
-  win.webContents.session.webRequest.onHeadersReceived({ urls: [ "*://*/*" ] },
-    (d, c)=>{
-      if(d.responseHeaders['X-Frame-Options']){
-        delete d.responseHeaders['X-Frame-Options'];
-      } else if(d.responseHeaders['x-frame-options']) {
-        delete d.responseHeaders['x-frame-options'];
+      // preload: path.join(__dirname, 'preload.js')
+      trustedTypes: {
+        createPolicy: (policyName, policyOptions) => {
+          if (policyName === 'trustedScriptURL') {
+            return {
+              createScriptURL: (url) => url
+            };
+          }
+        }
       }
-
-      c({cancel: false, responseHeaders: d.responseHeaders});
     }
-  );
-  win.loadURL('https://hub-1sl.pages.dev')
+  });
+  let vue = 'https://cdnjs.cloudflare.com/ajax/libs/vue/3.5.3/vue.global.prod.min.js'
+  win.loadURL('https://www.youtube.com/')
+  // enable devtools
+  win.webContents.openDevTools()
+  // wait for the page to load
+  win.webContents.on('did-finish-load', () => {
+    // append js to the end of the body
+    win.webContents.executeJavaScript(`
+    const policy = trustedTypes.createPolicy('trustedScriptURL', {
+      createScriptURL: (url) => url
+    });
+    const script = document.createElement('script');
+    script.src = policy.createScriptURL('${vue}');
+    document.body.appendChild(script);
+  `)
+  })
 }
 
 app.whenReady().then(() => {
