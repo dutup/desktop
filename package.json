@@ -6,7 +6,8 @@
   "author": "willwilson <qtvhao@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^32.0.2"
+    "electron": "^32.0.2",
+    "electron-builder": "^25.0.5"
   },
   "scripts": {
     "start": "electron ."
