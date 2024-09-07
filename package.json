@@ -1,7 +1,7 @@
 {
   "name": "desktop",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "main.js",
   "repository": "https://github.com/dutup/desktop.git",
   "author": "willwilson <qtvhao@gmail.com>",
   "license": "MIT",
