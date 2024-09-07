@@ -1,0 +1,14 @@
+{
+  "name": "desktop",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/dutup/desktop.git",
+  "author": "willwilson <qtvhao@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^32.0.2"
+  },
+  "scripts": {
+    "start": "electron ."
+  }
+}
